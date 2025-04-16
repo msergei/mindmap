@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  obsidian:
+    image: ghcr.io/punchy98/obsidian-remote:latest
+    container_name: obsidian-web
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Moscow
+    ports:
+      - "8080:8080"
+    volumes:
+      - obsidian-config:/config
+      - obsidian-vaults:/vaults
+
+volumes:
+  obsidian-config:
+    driver: local
+  obsidian-vaults:
+    driver: local
