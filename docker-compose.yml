@@ -6,6 +6,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Moscow
+      - PASSWORD=${PASS}
+      - CUSTOM_USER=${USER}
     ports:
       - 3000:3000
     volumes:
