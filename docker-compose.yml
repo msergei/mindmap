@@ -1,22 +1,25 @@
-version: "3.8"
-
 services:
   obsidian:
-    image: ghcr.io/punchy98/obsidian-remote:latest
-    container_name: obsidian-web
+    image: linuxserver/obsidian:latest
     restart: always
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Moscow
     ports:
-      - "8080:8080"
+      - 3000:3000
     volumes:
-      - obsidian-config:/config
-      - obsidian-vaults:/vaults
+      - config:/config
+      - vaults:/vaults
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cf-tunnel
+    command: tunnel run --url http://obsidian:3000 --token ${CLOUDFLARE_TOKEN}
+    depends_on:
+      - obsidian
+    restart: always
 
 volumes:
-  obsidian-config:
-    driver: local
-  obsidian-vaults:
-    driver: local
+  config:
+  vaults:
